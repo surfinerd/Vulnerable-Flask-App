@@ -25,7 +25,7 @@ jobs:
       - name: Run Docker Container
         run: docker run -d -p 5050:5050 vulnerable-app
       - name: Test App Conection
-        run: curl http://0.0.0.0:5050/
+      - run: curl http://0.0.0.0:5050/
       - name: Install Neuralegion deps
       - run: |
           sudo apt update
