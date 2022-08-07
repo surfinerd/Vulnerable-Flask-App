@@ -36,7 +36,7 @@ jobs:
       - name: Run Docker Container deattached 
         run: docker run -d -p 5050:5050 vulnerable-app
       - name: Test App Connection 
-        run: docker containers ls -a
+        run: docker container ls --all
       - name: Get working directory aftermath
         run: |
              pwd
