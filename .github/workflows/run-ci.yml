@@ -29,7 +29,17 @@ jobs:
         run: |
           printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
           cat .env
-      - name: Docker-Compose
+      - name: Get working directory
+        run: echo $(PWD)
+      - name: Build Image Vuln App
+        run: docker build -f Dockerfile -t vulnerable-app .
+      - name: Run Docker Container deattached
+        run: docker run -d -p 5050:5050 vulnerable-app
+      - name: Get working directory aftermath
+        run: |
+             echo $(PWD)
+             ls -la
+      - name: Docker-Compose Neuralegion cli
         run: |
           sudo docker-compose --env-file=.env up -d
           sudo docker-compose config
@@ -53,9 +63,9 @@ jobs:
           nexploit-cli scan:polling               \
             --interval 30s                        \
             --timeout 30m                         \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
-#            --breakpoint high_issue $SCAN_ID
-#      - name: Stop Scan 🛑
-#        continue-on-error: true
-#        if: ${{ always() }}
-#        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
+            --token ${{ secrets.NEXPLOIT_TOKEN }} \
+            --breakpoint low_issue $SCAN_ID
+      - name: Stop Scan 🛑
+        continue-on-error: true
+        if: ${{ always() }}
+        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
