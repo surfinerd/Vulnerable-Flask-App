@@ -36,7 +36,7 @@ jobs:
       - name: Run Docker Container deattached 
         run: docker run -d -p 5050:5050 vulnerable-app
       - name: Test App Connection 
-        run: curl http://localhost:5050
+        run: docker containers ls -a
       - name: Get working directory aftermath
         run: |
              pwd
@@ -50,11 +50,11 @@ jobs:
       - name: Start Nexploit Scan 🏁
         id: start
         run: |
-          SCAN_ID=$(nexploit-cli scan:run                                                 \
-            --test csrf dom_xss header_security secret_tokens open_buckets                 \
+          SCAN_ID=$(nexploit-cli scan:run                                                     \
+            --test csrf dom_xss header_security secret_tokens open_buckets                    \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler http://localhost:5050  \
-            --repeater ${{ secrets.REPEATER }}                                            \
+            --crawler http://0.0.0.0:5050                                                     \
+            --repeater ${{ secrets.REPEATER }}                                                \
             --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
       - name: Get the output scan url 🔗
