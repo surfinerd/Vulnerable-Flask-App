@@ -53,7 +53,7 @@ jobs:
           SCAN_ID=$(nexploit-cli scan:run                                                     \
             --test csrf dom_xss header_security secret_tokens open_buckets                    \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler http://0.0.0.0:5050                                                     \
+            --crawler http://35.243.174.231:3000/                                                     \
             --repeater ${{ secrets.REPEATER }}                                                \
             --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
