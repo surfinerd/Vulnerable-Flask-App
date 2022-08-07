@@ -17,6 +17,14 @@ jobs:
           sudo apt-get install nodejs-dev node-gyp libssl1.0-dev
           sudo apt-get install nodejs npm
           sudo npm install -g @neuralegion/nexploit-cli --unsafe-perm=true
+      - name: Setup Python 3.7.13
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.7.13
+      - name: Install python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
       - name: Save environment variables
         run: |
           printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
@@ -44,9 +52,9 @@ jobs:
         run: |
           nexploit-cli scan:polling               \
             --interval 30s                        \
-            --timeout 10m                         \
-            --token ${{ secrets.NEXPLOIT_TOKEN }} \
-            --breakpoint high_issue $SCAN_ID
+            --timeout 30m                         \
+            --token ${{ secrets.NEXPLOIT_TOKEN }}
+#            --breakpoint high_issue $SCAN_ID
 #      - name: Stop Scan 🛑
 #        continue-on-error: true
 #        if: ${{ always() }}
