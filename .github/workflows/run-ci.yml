@@ -47,7 +47,7 @@ jobs:
             --timeout 10m                         \
             --token ${{ secrets.NEXPLOIT_TOKEN }} \
             --breakpoint high_issue $SCAN_ID
-      - name: Stop Scan 🛑
-        continue-on-error: true
-        if: ${{ always() }}
-        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
+#      - name: Stop Scan 🛑
+#        continue-on-error: true
+#        if: ${{ always() }}
+#        run: nexploit-cli scan:stop --token ${{ secrets.NEXPLOIT_TOKEN }} $SCAN_ID
