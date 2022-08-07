@@ -30,14 +30,16 @@ jobs:
           printf "NEXPLOIT_TOKEN=${{ secrets.NEXPLOIT_TOKEN }}\nREPEATER=${{ secrets.REPEATER }}\n" > .env
           cat .env
       - name: Get working directory
-        run: echo $(PWD)
+        run: pwd
       - name: Build Image Vuln App
         run: docker build -f Dockerfile -t vulnerable-app .
-      - name: Run Docker Container deattached
+      - name: Run Docker Container deattached 
         run: docker run -d -p 5050:5050 vulnerable-app
+      - name: Test App Connection 
+        run: curl http://localhost:5050
       - name: Get working directory aftermath
         run: |
-             echo $(PWD)
+             pwd
              ls -la
       - name: Docker-Compose Neuralegion cli
         run: |
@@ -51,7 +53,7 @@ jobs:
           SCAN_ID=$(nexploit-cli scan:run                                                 \
             --test csrf dom_xss header_security secret_tokens open_buckets                 \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
-            --crawler https://brokencrystals.com/api/config https://brokencrystals.com/  \
+            --crawler http://localhost:5050  \
             --repeater ${{ secrets.REPEATER }}                                            \
             --token ${{ secrets.NEXPLOIT_TOKEN }})
           echo "SCAN_ID=$SCAN_ID" >> $GITHUB_ENV
