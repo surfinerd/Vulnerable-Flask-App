@@ -23,9 +23,8 @@ jobs:
       - name: Build Image Vuln-App
         run: docker build -t vulnerable-app .
       - name: Run Docker Container
-        run: docker run -d -p 5050:5050 vulnerable-app
-      - name: Test App Conection
-      - run: curl http://0.0.0.0:5050/
+        run: docker run -d -p 5050:5050 vulnerable-app               \
+             curl http://0.0.0.0:5050/
       - name: Install Neuralegion deps
       - run: |
           sudo apt update
