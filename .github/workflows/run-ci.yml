@@ -51,7 +51,7 @@ jobs:
         id: start
         run: |
           SCAN_ID=$(nexploit-cli scan:run                                                     \
-            --test file_upload full_path_disclosure header_security html_injection id_enumeration jwt lfi open_buckets secret_tokens server_side_js_injection ssrf version_control_systems xss xxe                    \
+            --test cookie_security common_files header_security rfi sqli dom_xss directory_listing email_injection server_side_js_injection id_enumeration jwt lfi open_buckets secret_tokens ssrf xss xxe                    \
             --name "💎 BrokenCrystals for a '${GITHUB_REF##*/}' branch #${GITHUB_RUN_NUMBER}" \
             --crawler http://35.243.174.231:3000/                                             \
             --repeater ${{ secrets.REPEATER }}                                                \
